@@ -48,7 +48,12 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary">
+      <!-- Data attributes are useful in passing the data through HTML elements -->
+      <!-- Its useful when we declare its logic in a separate js instead of its 'onclick' attribute -->
+      <!-- Syntax: starts with 'data' and changes from kebab -> camelCase while fetching -->
+
+      <button class="add-to-cart-button button-primary js-add-to-cart-button"
+        data-product-id="${product.id}">
         Add to Cart
       </button>
     </div>
@@ -57,3 +62,39 @@ products.forEach((product) => {
 
 document.querySelector('.js-product-grid')
   .innerHTML = productsHTML;
+
+document.querySelectorAll('.js-add-to-cart-button')
+  .forEach((addButton) => {
+    addButton.addEventListener('click', () => {
+      //console.log(addButton.dataset.productId);
+      const productId = addButton.dataset.productId;
+
+      let matchingItem;
+
+      cart.forEach((item) => {
+        if(item.productId === productId){
+          matchingItem = item;
+        }
+      });
+
+      if(matchingItem){
+        matchingItem.quatity += 1;
+      }else{
+        cart.push({
+          productId,
+          quatity: 1
+        });
+      }
+      
+      let cart_quantity = 0;
+
+      cart.forEach((item) => {
+        cart_quantity += item.quatity;
+      });
+
+      document.querySelector('.js-cart-quantity')
+        .innerHTML = cart_quantity;
+
+      console.log(cart);
+    })
+  });
