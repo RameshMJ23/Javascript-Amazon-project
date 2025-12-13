@@ -59,8 +59,13 @@
   </body>
 
   <!-- <script> loads the data line by line, hence declare the resources accordingly-->
-  <script src="data/cart.js"></script>
-  <script src="data/products.js"></script>
-  <script src="script/amaon.js"></script>
+
+  <!-- Declaring files like this is same as having the code in a single file, a bit more organsied -->
+  <!-- <script src="data/cart.js"></script> 
+    <script src="data/products.js"></script>  -->
+
+  <!--  Modules solve this issue of exporting and importing required data/variables from the respective files -->
+  <!--  Modules only work in Live Server-->
+  <script type="module" src="script/amaon.js"></script>
    
 </html>
