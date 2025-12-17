@@ -1,6 +1,6 @@
 // Required data is exported from respective files and can be imported
 
-import {cart, addProducts} from '../data/cart.js';
+import {cart, addProducts, getCartQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -65,12 +65,8 @@ products.forEach((product) => {
 });
 
 
-function updateCartQuntity(){
-  let cart_quantity = 0;
-
-  cart.forEach((cartItem) => {
-    cart_quantity += cartItem.quantity;
-  });
+function updateCartQuantity(){
+  let cart_quantity = getCartQuantity();
 
   document.querySelector('.js-cart-quantity')
     .innerHTML = cart_quantity;
@@ -107,6 +103,6 @@ document.querySelectorAll('.js-add-to-cart-button')
       }, 2000);
 
       addProducts(productId, quantity);      
-      updateCartQuntity();
+      updateCartQuantity();
     })
   });

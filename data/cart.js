@@ -69,3 +69,15 @@ export function updateDeliveryOption(productId, deliveryOptionId){
   
   saveToStorage();
 }
+
+
+export function getCartQuantity(){
+
+  let cart_quantity = 0;
+
+  cart.forEach((cartItem) => {
+    cart_quantity += cartItem.quantity;
+  });
+
+  return cart_quantity;
+}

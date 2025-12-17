@@ -1,5 +1,5 @@
 // Named export
-import {cart, removeProduct, updateDeliveryOption} from '../../data/cart.js';
+import {cart, removeProduct, updateDeliveryOption, getCartQuantity} from '../../data/cart.js';
 import {products, getProduct} from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/delivery-options.js';
@@ -141,7 +141,10 @@ export function renderOrderSummary(){
         renderOrderSummary();
         renderPaymentSummary();
       });
-  })
+  });
+
+  document.querySelector('.js-return-to-home-link')
+    .innerHTML = `${getCartQuantity()} items`;
 }
 
 renderOrderSummary()
