@@ -2,16 +2,34 @@
 import {cart, removeProduct, updateDeliveryOption, getCartQuantity, updateQuantity, getCartItemQuantity} from '../../data/cart.js';
 import {products, getProduct} from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import {deliveryOptions, getDeliveryOption} from '../../data/delivery-options.js';
+import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/delivery-options.js';
+
 // default export
 // esm = ecmajavascript, these files have functions that are exportable, else use link in script
-import dayjs from  'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-import { renderPaymentSummary } from './paymentSummary.js';
+
+import { renderPaymentSummary} from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 
-const today = dayjs();
 
-const deliverydate = today.add(7, 'days');
+// 15 HW
+// const afterFiveDays = today.add(5, 'days');
+
+// const afterAMonth = today.subtract(1, 'months');
+
+// const someday = dayjs('2025-12-22');
+
+// console.log(isWeekend(someday));
+
+// function isWeekend(someday){
+
+//   const day = someday.format('dddd');
+
+//   if( day === 'Saturday' || day === 'Sunday'){
+//     return day;
+//   }
+// }
+
 
 export function renderOrderSummary(){
 
@@ -21,19 +39,14 @@ export function renderOrderSummary(){
 
     const matchingProduct = getProduct(cartItem.productId);
 
-    const deliveryId = cartItem.deliveryOptionId;
-
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
 
-    const deliveryDate = today.add(
-      deliveryOption.deliveryTime, 'days');
-    
-    const dateFormat = deliveryDate.format('dddd, MMMM D');
+    const deliveryDate = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
       <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
-          Delivery date: ${dateFormat}
+          Delivery date: ${deliveryDate}
         </div>
 
         <div class="cart-item-details-grid">
@@ -83,14 +96,9 @@ export function renderOrderSummary(){
 
     let deliveryOptionsHTML = '';
 
-    const today = dayjs();
-
     deliveryOptions.forEach((deliveryOption) => {
 
-      const deliveryDate = today.add(
-        deliveryOption.deliveryTime, 'days');
-      
-      const dateFormat = deliveryDate.format('dddd, MMMM D');
+      const deliveryDate = calculateDeliveryDate(deliveryOption);
 
       const price = deliveryOption.priceCents === 0 
         ? "FREE"
@@ -109,7 +117,7 @@ export function renderOrderSummary(){
             name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
-              ${dateFormat}
+              ${deliveryDate}
             </div>
             <div class="delivery-option-price">
               ${price} Shipping
@@ -135,8 +143,8 @@ export function renderOrderSummary(){
           (`.js-cart-item-container-${productId}`);
 
         container.remove();
-        updateCartQuantity();
         renderPaymentSummary();
+        renderCheckoutHeader();
       });
   });
 
@@ -159,6 +167,7 @@ export function renderOrderSummary(){
         const cartItemContainerElem = document.querySelector(`.js-cart-item-container-${productId}`);
 
         cartItemContainerElem.classList.add("is-editing-quantity");
+
       });
   });
 
@@ -178,8 +187,6 @@ export function renderOrderSummary(){
         }
       })
   });
-
-  updateCartQuantity();
 }
 
 function handleUpdateQuantity(inputElem, productId, cartItemContainerElem){
@@ -188,22 +195,13 @@ function handleUpdateQuantity(inputElem, productId, cartItemContainerElem){
 
   if(newQuantity >= 1 && newQuantity < 1000){
     updateQuantity(productId, newQuantity);
-    updateCartQuantity();
-    updateItemQuantity(productId);
+    renderOrderSummary();
+    renderPaymentSummary();
+    renderCheckoutHeader();
     cartItemContainerElem.classList.remove("is-editing-quantity");
   }
 
   inputElem.value = '';
 }
 
-function updateCartQuantity(){
-  document.querySelector('.js-return-to-home-link')
-    .innerHTML = `${getCartQuantity()} items`;
-}
-
-function updateItemQuantity(productId){
-  document.querySelector(`.js-quantity-label-${productId}`)
-    .innerHTML = `${getCartItemQuantity(productId)}`;
-}
-
-renderOrderSummary()
+renderOrderSummary();
