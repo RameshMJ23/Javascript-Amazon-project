@@ -11,26 +11,6 @@ import { renderPaymentSummary} from './paymentSummary.js';
 import { renderCheckoutHeader } from './checkoutHeader.js';
 
 
-
-// 15 HW
-// const afterFiveDays = today.add(5, 'days');
-
-// const afterAMonth = today.subtract(1, 'months');
-
-// const someday = dayjs('2025-12-22');
-
-// console.log(isWeekend(someday));
-
-// function isWeekend(someday){
-
-//   const day = someday.format('dddd');
-
-//   if( day === 'Saturday' || day === 'Sunday'){
-//     return day;
-//   }
-// }
-
-
 export function renderOrderSummary(){
 
   let cartSummaryHTML = '';
@@ -44,7 +24,8 @@ export function renderOrderSummary(){
     const deliveryDate = calculateDeliveryDate(deliveryOption);
 
     cartSummaryHTML += `
-      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+      <div class="cart-item-container jst-cart-item-container
+       jst-cart-item-container-${matchingProduct.id} js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
           Delivery date: ${deliveryDate}
         </div>
@@ -75,7 +56,7 @@ export function renderOrderSummary(){
                 data-product-id = "${matchingProduct.id}">
                 Save
               </span>
-              <span class="delete-quantity-link link-primary js-delete-link"
+              <span class="delete-quantity-link link-primary js-delete-link jst-delete-link-${matchingProduct.id}"
                 data-product-id = "${matchingProduct.id}">
                 Delete
               </span>
@@ -205,3 +186,25 @@ function handleUpdateQuantity(inputElem, productId, cartItemContainerElem){
 }
 
 renderOrderSummary();
+
+
+
+
+
+// 15 HW
+// const afterFiveDays = today.add(5, 'days');
+
+// const afterAMonth = today.subtract(1, 'months');
+
+// const someday = dayjs('2025-12-22');
+
+// console.log(isWeekend(someday));
+
+// function isWeekend(someday){
+
+//   const day = someday.format('dddd');
+
+//   if( day === 'Saturday' || day === 'Sunday'){
+//     return day;
+//   }
+// }

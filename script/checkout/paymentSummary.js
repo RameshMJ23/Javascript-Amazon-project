@@ -18,8 +18,6 @@ export function renderPaymentSummary(){
     totalShippingCost += getDeliveryOption(cartItem.deliveryOptionId).priceCents;
 
   });
-  console.log(totalPriceCents);
-  console.log(totalShippingCost);
   let beforeTaxCost = totalPriceCents + totalShippingCost;
 
   let tax = beforeTaxCost * 0.1;
