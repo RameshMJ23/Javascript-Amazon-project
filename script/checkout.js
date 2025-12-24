@@ -8,3 +8,5 @@ import '../data/cart-oops.js';
 renderCheckoutHeader();
 renderOrderSummary();
 renderPaymentSummary();
+
+
