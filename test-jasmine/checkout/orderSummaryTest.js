@@ -1,5 +1,6 @@
 import { loadCart, cart} from "../../data/cart.js";
 import { renderOrderSummary } from "../../script/checkout/orderSummary.js";
+import { getProduct } from "../../data/products.js";
 
 
 describe('test: OrderSummary', () => {
@@ -52,6 +53,22 @@ describe('test: OrderSummary', () => {
     expect(
       document.querySelectorAll(`.product-quantity`)[1].innerText
     ).toContain('Quantity: 2');
+
+    expect(
+      document.querySelectorAll('.product-name')[0].innerText
+    ).toContain(getProduct(productId1).name);
+
+    expect(
+      document.querySelectorAll('.product-name')[1].innerText
+    ).toContain(getProduct(productId2).name);
+
+    expect(
+      document.querySelectorAll('.product-price')[0].innerText
+    ).toContain(getProduct(productId1).getPrice());
+
+    expect(
+      document.querySelectorAll('.product-price')[1].innerText
+    ).toContain(getProduct(productId2).getPrice());
   });
 
   //How it behaves
@@ -74,5 +91,27 @@ describe('test: OrderSummary', () => {
     expect(cart.length).toEqual(1);
     
     expect(cart[0].productId).toEqual(productId2);
+
+    expect(
+      document.querySelectorAll('.product-name')[0].innerText
+    ).toContain(getProduct(productId2).name);
   });
+
+  it("updating delivery option", () => {
+    console.log(document.querySelector(
+      `.jst-delivery-option-input-${productId1}-3`
+    ));
+
+    document.querySelector(`.jst-delivery-option-input-${productId1}-3`).click();
+
+    expect(
+      document.querySelector(`.jst-delivery-option-input-${productId1}-3`).checked
+    ).toBe(true);
+
+    expect(cart.length).toEqual(2);
+    expect(cart[0].deliveryOptionId).toEqual('3');
+
+    expect(document.querySelector('.jst-total-cost').innerText).toEqual('$49.89');
+    expect(document.querySelector('.jst-shipping-cost').innerText).toEqual('$14.98');
+  })
 }); 

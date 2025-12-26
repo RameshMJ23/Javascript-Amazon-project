@@ -1,3 +1,5 @@
+import { getDeliveryOption } from "./delivery-options.js";
+
 export let cart;
 
 loadCart();
@@ -51,13 +53,16 @@ export function removeProduct(productId){
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId){
+
+  if(!getDeliveryOption(deliveryOptionId)) return;
+  
   let matchingItem = getMathcingItem(productId);
 
-  matchingItem.deliveryOptionId = deliveryOptionId;
-  
-  saveToStorage();
+  if(matchingItem){
+    matchingItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+  }
 }
-
 
 export function getCartQuantity(){
 

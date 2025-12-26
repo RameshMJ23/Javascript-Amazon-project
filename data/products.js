@@ -20,7 +20,28 @@ class Product{
   }
   
   getPrice(){
-    return formatCurrency(this.priceCents);
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+
+  getExtraInfo(){
+    return '';
+  }
+}
+
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor(productDetails){
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  getExtraInfo(){
+    return `
+      <a href= "${this.sizeChartLink}" target="_blank">
+        Size chart
+      </a>
+    `;
   }
 }
 
@@ -683,7 +704,13 @@ export const products = [
       "mens"
     ]
   }
-].map((product) => new Product(product));
+].map((product) => {
+  if(product.type === "clothing"){
+    return new Clothing(product);
+  }
+
+  return new Product(product);
+});
 
 export function getProduct(productId){
   let matchingProduct;
@@ -695,6 +722,60 @@ export function getProduct(productId){
   });
 
   return matchingProduct;
-
-  
 }
+
+/*
+//More info on "this"
+// "this" - lets an object access its own properties
+// Simply, if "this" have an object to point out it does, else it doesn't
+
+// undefined, becuase there is no object to point to
+console.log(this);
+
+// b is undefined because, object is not created yet
+
+const obj1 = {
+//   a: 1,
+//   b: this.a
+// }
+
+console.log(obj1);
+
+
+// Functions have a spl ability to change the value of "this" using call() method
+function logThis(){
+  console.log(this);
+}
+
+logThis.call("Hello");
+
+//arrow function don't change the value of "this"
+
+const obj2 = {
+  method: () => {
+    //arrow function doesn't have the value of obj2 instance
+    console.log(this);
+  }
+}
+
+obj2.method();
+
+const obj3 = {
+  method(){ //not an arrow function
+
+    // Hence, "this" points to the obj3
+    console.log(this);
+
+
+    [1,2].map(() => {
+      // arrow function doesn't change the value of "this"
+      // also points to obj3 
+      console.log(this);
+    });
+  }
+}
+
+// prints out the method
+obj3.method();
+
+*/

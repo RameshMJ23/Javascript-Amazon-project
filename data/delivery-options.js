@@ -26,7 +26,7 @@ export function getDeliveryOption(deliveryId){
     }
   });
 
-  return deliveryOption || deliveryOptions[0];
+  return deliveryOption || null;
 }
 
 export function calculateDeliveryDate(deliveryOption){

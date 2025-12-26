@@ -39,7 +39,7 @@ export function renderOrderSummary(){
               ${matchingProduct.name}
             </div>
             <div class="product-price">
-              $${matchingProduct.getPrice()}
+              ${matchingProduct.getPrice()}
             </div>
             <div class="product-quantity">
               <span>
@@ -90,11 +90,11 @@ export function renderOrderSummary(){
         : '';
 
       deliveryOptionsHTML += `
-        <div class="delivery-option js-delivery-option"
+        <div class="delivery-option js-delivery-option jst-delivery-option-${cartItem.productId}-${deliveryOption.id}"
           data-product-id=${cartItem.productId} data-delivery-option-id=${deliveryOption.id}>
           <input type="radio"
             ${isChecked} 
-            class="delivery-option-input"
+            class="delivery-option-input jst-delivery-option-input-${cartItem.productId}-${deliveryOption.id}"
             name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">

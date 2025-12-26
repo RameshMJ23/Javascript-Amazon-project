@@ -31,14 +31,14 @@ export function renderPaymentSummary(){
 
     <div class="payment-summary-row">
       <div class="js-item-count">Items (${getCartQuantity()})</div>
-      <div class="payment-summary-money">
+      <div class="payment-summary-money jst-total-cost">
         $${formatCurrency(totalPriceCents)}
       </div>
     </div>
 
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">
+      <div class="payment-summary-money jst-shipping-cost">
         $${formatCurrency(totalShippingCost)}
       </div>
     </div>
